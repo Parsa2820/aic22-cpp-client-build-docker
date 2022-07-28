@@ -14,6 +14,14 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get install -y \
     cmake \
     vim
 
+# Install yaml-cpp
+RUN git clone https://github.com/jbeder/yaml-cpp.git --branch yaml-cpp-0.6.0 \
+    && cd yaml-cpp \
+    && mkdir build \
+    && cd build \
+    && cmake .. \
+    && make install
+
 # Install protobuf
 RUN git clone --recurse-submodules -b v1.45.0 --depth 1 --shallow-submodules https://github.com/grpc/grpc \
     && cd grpc/third_party/protobuf \
@@ -24,7 +32,10 @@ RUN git clone --recurse-submodules -b v1.45.0 --depth 1 --shallow-submodules htt
     && ldconfig  
 
 # Install gRPC
-RUN cd grpc \
+RUN export MY_INSTALL_DIR=$HOME/.local \
+    && mkdir -p $MY_INSTALL_DIR \
+    && export PATH=$MY_INSTALL_DIR/bin:$PATH \
+    && cd grpc \
     && mkdir -p cmake/build \
     && pushd cmake/build \
     && cmake -DgRPC_INSTALL=ON \
@@ -34,13 +45,5 @@ RUN cd grpc \
     && make -j $(( $(nproc) - 1 )) \
     && make install \
     && popd
-
-# Install yaml-cpp
-RUN git clone https://github.com/jbeder/yaml-cpp.git --branch yaml-cpp-0.6.0 \
-    && cd yaml-cpp \
-    && mkdir build \
-    && cd build \
-    && cmake .. \
-    && make install
 
 CMD cd /src && rm -rf build && ./build.sh
