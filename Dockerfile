@@ -11,8 +11,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get install -y \
     autoconf \
     libtool \
     pkg-config \
-    cmake \
-    vim
+    cmake 
 
 # Install yaml-cpp
 RUN git clone https://github.com/jbeder/yaml-cpp.git --branch yaml-cpp-0.6.0 \
@@ -48,6 +47,15 @@ RUN export MY_INSTALL_DIR=$HOME/.local \
 
 # Clean up
 RUN rm -rf yaml-cpp \
-    && rm -rf grpc
+    && rm -rf grpc \
+    && apt-get remove -y \
+        git \
+        build-essential \
+        autoconf \
+        libtool \
+        pkg-config \
+    && apt-get autoremove -y \
+    && apt-get clean -y \
+    && rm -rf /var/lib/apt/lists/*
 
 CMD export PATH="/root/.local/bin":$PATH && cd /src && rm -rf build && ./build.sh
