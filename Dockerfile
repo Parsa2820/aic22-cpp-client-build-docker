@@ -15,8 +15,8 @@ RUN git clone --recurse-submodules -b v1.45.0 --depth 1 --shallow-submodules htt
     && cd grpc/third_party/protobuf \
     && ./autogen.sh \  
     && ./configure \  
-    && make \
-    && make check \
+    && make -j $(( $(nproc) - 1 )) \
+    && make -j $(( $(nproc) - 1 )) check \
     && sudo make install \
     && sudo ldconfig  
 
@@ -28,7 +28,7 @@ RUN cd ../.. \
       -DgRPC_BUILD_TESTS=OFF \
       -DCMAKE_INSTALL_PREFIX=$MY_INSTALL_DIR \
       ../.. \
-    && make \
+    && make -j $(( $(nproc) - 1 )) \
     && make install \
     && popd
 
