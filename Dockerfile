@@ -15,8 +15,8 @@ RUN git clone --recurse-submodules -b v1.45.0 --depth 1 --shallow-submodules htt
     && cd grpc/third_party/protobuf \
     && ./autogen.sh \  
     && ./configure \  
-    && make -j \
-    && make -j check \
+    && make \
+    && make check \
     && sudo make install \
     && sudo ldconfig  
 
@@ -28,6 +28,17 @@ RUN cd ../.. \
       -DgRPC_BUILD_TESTS=OFF \
       -DCMAKE_INSTALL_PREFIX=$MY_INSTALL_DIR \
       ../.. \
-    && make -j \
-    && make -j install \
+    && make \
+    && make install \
     && popd
+
+# Install yaml-cpp
+RUN cd .. \
+    && git clone https://github.com/jbeder/yaml-cpp.git --branch yaml-cpp-0.6.0 \
+    && cd yaml-cpp \
+    && mkdir build \
+    && cd build \
+    && cmake .. \
+    && sudo make install
+
+CMD cd /src && ./build.sh
