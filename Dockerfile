@@ -46,4 +46,8 @@ RUN export MY_INSTALL_DIR=$HOME/.local \
     && make install \
     && popd
 
-CMD cd /src && rm -rf build && ./build.sh
+# Clean up
+RUN rm -rf yaml-cpp \
+    && rm -rf grpc
+
+CMD export PATH="/root/.local/bin":$PATH && cd /src && rm -rf build && ./build.sh
