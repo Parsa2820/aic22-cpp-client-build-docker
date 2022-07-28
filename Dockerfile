@@ -11,8 +11,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get install -y \
     autoconf \
     libtool \
     pkg-config \
-    cmake \
-    vim
+    cmake
 
 # Install yaml-cpp
 RUN git clone https://github.com/jbeder/yaml-cpp.git --branch yaml-cpp-0.6.0 \
