@@ -19,7 +19,6 @@ RUN git clone --recurse-submodules -b v1.45.0 --depth 1 --shallow-submodules htt
     && ./autogen.sh \  
     && ./configure \  
     && make -j $(( $(nproc) - 1 )) \
-    && make -j $(( $(nproc) - 1 )) check \
     && make install \
     && ldconfig  
 
