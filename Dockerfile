@@ -11,7 +11,8 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get install -y \
     autoconf \
     libtool \
     pkg-config \
-    cmake
+    cmake \
+    vim
 
 # Install protobuf
 RUN git clone --recurse-submodules -b v1.45.0 --depth 1 --shallow-submodules https://github.com/grpc/grpc \
@@ -42,4 +43,4 @@ RUN git clone https://github.com/jbeder/yaml-cpp.git --branch yaml-cpp-0.6.0 \
     && cmake .. \
     && make install
 
-CMD cd /src && ./build.sh
+CMD cd /src && rm -rf build && ./build.sh
