@@ -24,7 +24,7 @@ RUN git clone --recurse-submodules -b v1.45.0 --depth 1 --shallow-submodules htt
     && ldconfig  
 
 # Install gRPC
-RUN cd ../.. \
+RUN cd grpc \
     && mkdir -p cmake/build \
     && pushd cmake/build \
     && cmake -DgRPC_INSTALL=ON \
@@ -36,8 +36,7 @@ RUN cd ../.. \
     && popd
 
 # Install yaml-cpp
-RUN cd .. \
-    && git clone https://github.com/jbeder/yaml-cpp.git --branch yaml-cpp-0.6.0 \
+RUN git clone https://github.com/jbeder/yaml-cpp.git --branch yaml-cpp-0.6.0 \
     && cd yaml-cpp \
     && mkdir build \
     && cd build \
