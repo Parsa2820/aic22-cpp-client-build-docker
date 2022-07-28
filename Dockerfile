@@ -17,8 +17,8 @@ RUN git clone --recurse-submodules -b v1.45.0 --depth 1 --shallow-submodules htt
     && ./configure \  
     && make -j $(( $(nproc) - 1 )) \
     && make -j $(( $(nproc) - 1 )) check \
-    && sudo make install \
-    && sudo ldconfig  
+    && make install \
+    && ldconfig  
 
 # Install gRPC
 RUN cd ../.. \
@@ -39,6 +39,6 @@ RUN cd .. \
     && mkdir build \
     && cd build \
     && cmake .. \
-    && sudo make install
+    && make install
 
 CMD cd /src && ./build.sh
