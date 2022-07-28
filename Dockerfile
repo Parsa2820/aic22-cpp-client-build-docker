@@ -3,12 +3,14 @@
 
 FROM ubuntu:22.04
 
+SHELL ["/bin/bash", "-c"]
+
 RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get install -y \
     git \
     build-essential \
     autoconf \
     libtool \
-    pkg-config
+    pkg-config 
 
 # Install protobuf
 RUN git clone --recurse-submodules -b v1.45.0 --depth 1 --shallow-submodules https://github.com/grpc/grpc \
